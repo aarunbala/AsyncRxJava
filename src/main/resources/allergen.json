@@ -1,0 +1,67 @@
+[
+  {
+    "ingredient": "string11",
+    "nutrientQualifier": "string11",
+    "productId": "1"
+  },
+  {
+    "ingredient": "string12",
+    "nutrientQualifier": "string12",
+    "productId": "1"
+  },
+  {
+    "ingredient": "string21",
+    "nutrientQualifier": "string21",
+    "productId": "2"
+  },
+  {
+    "ingredient": "string22",
+    "nutrientQualifier": "string22",
+    "productId": "2"
+  },
+  {
+    "ingredient": "string23",
+    "nutrientQualifier": "string23",
+    "productId": "2"
+  },
+  {
+    "ingredient": "string12",
+    "nutrientQualifier": "string12",
+    "productId": "3"
+  },
+  {
+    "ingredient": "string21",
+    "nutrientQualifier": "string21",
+    "productId": "3"
+  },
+  {
+    "ingredient": "string22",
+    "nutrientQualifier": "string22",
+    "productId": "3"
+  },
+  {
+    "ingredient": "string23",
+    "nutrientQualifier": "string23",
+    "productId": "3"
+  },
+  {
+    "ingredient": "string12",
+    "nutrientQualifier": "string12",
+    "productId": "4"
+  },
+  {
+    "ingredient": "string21",
+    "nutrientQualifier": "string21",
+    "productId": "5"
+  },
+  {
+    "ingredient": "string22",
+    "nutrientQualifier": "string22",
+    "productId": "5"
+  },
+  {
+    "ingredient": "string23",
+    "nutrientQualifier": "string23",
+    "productId": "5"
+  }
+]

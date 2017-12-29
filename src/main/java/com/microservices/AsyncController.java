@@ -15,8 +15,12 @@ import org.springframework.web.context.request.async.DeferredResult;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.microservices.model.Allergen;
 import com.microservices.model.Product;
 import com.microservices.model.ProductRepository;
+import com.microservices.model.ProductRequest;
+import com.microservices.model.Products;
+import com.microservices.vo.ProductVO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,37 +36,21 @@ public class AsyncController {
 	private static final String contextPath = "/microservices-template/"; 
 	
 	@Autowired
-	ProductRepository repo;
+	AsyncService service;
 	
-	@RequestMapping(value = "/getProducts/{ids}", method = RequestMethod.GET,produces = "application/json")
-	public DeferredResult<List<Product>> getProducts(@PathVariable Long[] ids) {
-		DeferredResult<List<Product>> deffered = new DeferredResult<List<Product>>();
-		Observable<Long> vals = Observable.from(ids);
-		
-		vals
-			.flatMap(product -> getProduct(product))
-			.toSortedList(ids.length)
-			.subscribe(m -> deffered.setResult(m));
-		
-		return deffered;
-	}
-	
-	public Observable<Product> getProduct(Long product){
-		System.out.println("Inside getProduct : "+ Thread.currentThread().getName() );
-		return Observable
-				.just(product)
-				.flatMap(pdt -> getProductFromDB(pdt))
-				.subscribeOn(Schedulers.io());
-	}
-	
-	public Observable<Product> getProductFromDB(Long product) {
-		System.out.println("Inside getProductFromDB : "+ Thread.currentThread().getName() );
-		return Observable.just(repo.findOne(product));
+	@PostMapping(value = "/getProducts",produces = "application/json")
+	public DeferredResult<List<ProductVO>> getProducts(@RequestBody ProductRequest request) {
+		return service.getProducts(request);
 	}
 	
 	@PostMapping("/addProducts")
-	public void addConfigs(@RequestBody List<Product> products) {
-		repo.save(products);
+	public void addProducts(@RequestBody List<Product> products) {
+		service.addProducts(products);
+	}
+	
+	@PostMapping("/addAllergens")
+	public void addAllergens(@RequestBody List<Allergen> allergens) {
+		service.addAllergens(allergens);
 	}
 
 	@RequestMapping(value = "/getRx/{ids}", method = RequestMethod.GET,produces = "application/json")

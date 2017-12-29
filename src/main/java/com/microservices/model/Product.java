@@ -9,8 +9,8 @@ import javax.persistence.Id;
 @Entity
 public class Product implements Comparable<Product>{
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private Long productId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private String productId;
 	private String name;
 	private String desc;
 	
@@ -18,17 +18,17 @@ public class Product implements Comparable<Product>{
 		super();
 	}
 	
-	public Product(Long productId, String name, String desc) {
+	public Product(String productId, String name, String desc) {
 		super();
 		this.productId = productId;
 		this.name = name;
 		this.desc = desc;
 	}
 
-	public Long getProductId() {
+	public String getProductId() {
 		return productId;
 	}
-	public void setProductId(Long productId) {
+	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 	public String getName() {
@@ -49,5 +49,11 @@ public class Product implements Comparable<Product>{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public String toString() {
+		return "Product [productId=" + productId + ", name=" + name + ", desc=" + desc + "]";
+	}
+	
 	
 }
