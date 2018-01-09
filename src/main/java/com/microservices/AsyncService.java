@@ -45,15 +45,16 @@ public class AsyncService {
 		DeferredResult<List<ProductVO>> deffered = new DeferredResult<List<ProductVO>>();
 		Observable<String> profiles = Observable.from(request.getProfiles());
 		Products products = new Products();
+		Throwable exeption = null;
 		
 		profiles
 			.flatMap(profile -> getProductsForProfile(products, request.getProductIds(), profile))
 			.toSortedList(request.getProfiles().size())
-                .doOnError(er -> System.out.println("MAIN"+er))
 			.subscribe(m -> {
 				collateProductDetails(products, request.getProductIds());
 				deffered.setResult(products.getProducts());	
-			});
+			},(Throwable throwable) ->
+                    deffered.setErrorResult(throwable));
 		
 		return deffered;
 	}
@@ -64,10 +65,6 @@ public class AsyncService {
 		return Observable
 				.just(profile)
 				.flatMap(pdt -> getProductFromDB(products, productIds, profile))
-                .onErrorReturn(er -> {
-                    er.printStackTrace();
-                    return new Products();
-                })
 				.subscribeOn(Schedulers.io());
 	}
 
@@ -76,15 +73,11 @@ public class AsyncService {
 		LOG.info("Inside getProductFromDB : {}" , Thread.currentThread().getName());
 		switch (profile) {
 			case "BASIC":
-				Span spanB = this.tracer.createSpan("Basic Database call");
 				products.setBasic(getBasicProductDetails(productIds));
-				this.tracer.close(spanB);
 				break;
 			case "ALLERGEN":
-				Span spanA = this.tracer.createSpan("Allergen Database call");
-//			    throw new RuntimeException("Database unavailable");
+			    //throw new RuntimeException("Database unavailable");
 				products.setAllergen(getAllergenDetails(productIds));
-				this.tracer.close(spanA);
                 break;
 			case "LOCATION":
 				break;
